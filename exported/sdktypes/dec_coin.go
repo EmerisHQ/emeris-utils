@@ -622,7 +622,7 @@ func ParseDecCoin(coinStr string) (coin DecCoin, err error) {
 
 	amount, err := NewDecFromStr(amountStr)
 	if err != nil {
-		return DecCoin{}, fmt.Errorf(fmt.Sprintf("failed to parse decimal coin amount %s, %w", amountStr, err))
+		return DecCoin{}, fmt.Errorf("failed to parse decimal coin amount %s, %w", amountStr, err)
 	}
 
 	if err := ValidateDenom(denomStr); err != nil {
