@@ -5,9 +5,11 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
+	"github.com/alicebob/miniredis/v2"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
@@ -490,4 +492,30 @@ func (s *Store) getValues(keys []string) ([]string, error) {
 	}
 
 	return values, nil
+}
+
+func GetKey(chain, txHash string) string {
+	return fmt.Sprintf("%s/%s", chain, txHash)
+}
+
+func GetIBCKey(chain, packetSrcChannel, packetSequence string) string {
+	return fmt.Sprintf("%s-%s-%s", chain, packetSrcChannel, packetSequence)
+}
+
+func SetupTestStore() (*miniredis.Miniredis, *Store) {
+	m, err := miniredis.Run()
+	if err != nil {
+		log.Fatalf("got error: %s when running miniredis", err)
+	}
+
+	s, err := NewClient(m.Addr())
+	if err != nil {
+		log.Fatalf("got error: %s when creating new store client", err)
+	}
+
+	return m, s
+}
+
+func ResetTestStore(m *miniredis.Miniredis, s *Store) {
+	m.DB(s.Client.Options().DB).FlushDB()
 }
