@@ -91,7 +91,7 @@ func (s *Store) CreateTicket(chain, txHash, owner string) error {
 		Status: pending,
 	}
 
-	key := fmt.Sprintf("%s/%s", chain, txHash)
+	key := GetKey(chain, txHash)
 	if err := s.CreateShadowKey(key); err != nil {
 		return err
 	}
@@ -216,7 +216,7 @@ func (s *Store) SetInTransit(key, destChain, sourceChannel, sendPacketSequence, 
 		return err
 	}
 
-	newKey := fmt.Sprintf("%s-%s-%s", destChain, sourceChannel, sendPacketSequence)
+	newKey := GetIBCKey(destChain, sourceChannel, sendPacketSequence)
 
 	if err := s.SetWithExpiry(newKey, Ticket{Info: key,
 		Owner: ticket.Owner,
