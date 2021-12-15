@@ -24,8 +24,8 @@ jobs:
 
       - name: Test
         run: |
-            sudo go test ./... -coverprofile coverage.out -covermode count
-            sudo go tool cover -func coverage.out
+            go test ./... -coverprofile coverage.out -covermode count
+            go tool cover -func coverage.out
 
       - name: Quality Gate - Test coverage shall be above threshold
         env:
@@ -42,6 +42,9 @@ jobs:
                 echo "Failed"
                 exit 1
             fi
+      - name: Upload codecov report
+        uses: codecov/codecov-action@v1
+        file: coverage.out
 
       - name: Build
         run: go build -v ./...
