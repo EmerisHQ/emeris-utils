@@ -22,15 +22,18 @@ jobs:
           go env -w GOPRIVATE=github.com/allinbits/*
           git config --global url."https://git:${{ secrets.TENDERBOT_GIT_TOKEN }}@github.com".insteadOf "https://github.com"
 
-      - name: Test
-        run: |
-            go test ./... -coverprofile coverage.out -covermode count
-            go tool cover -func coverage.out
+      - name: Build
+        run: go build -v ./...
 
+      - name: Test
+        run: make test
+            
       - name: Quality Gate - Test coverage shall be above threshold
         env:
             TESTCOVERAGE_THRESHOLD: 60
         run: |
+            go test ./... -coverprofile coverage.out -covermode count
+            go tool cover -func coverage.out
             echo "Quality Gate: checking test coverage is above threshold ..."
             echo "Threshold             : $TESTCOVERAGE_THRESHOLD %"
             totalCoverage=`go tool cover -func=coverage.out | grep total | grep -Eo '[0-9]+\.[0-9]+'`
@@ -47,11 +50,3 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: coverage.out
-        coverage:
-          status:
-          project:
-            default:
-              target: auto
-
-      - name: Build
-        run: go build -v ./...
