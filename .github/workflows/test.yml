@@ -47,6 +47,11 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: coverage.out
+        coverage:
+          status:
+          project:
+            default:
+              target: auto
 
       - name: Build
         run: go build -v ./...
