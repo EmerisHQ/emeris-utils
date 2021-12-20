@@ -5,6 +5,9 @@ on:
   pull_request:
   push:
 
+env:
+  CODECOV_TOKEN: f4c778f3-4ffd-4e6e-a3c7-9e4cb11e92d5
+
 jobs:
   test:
     runs-on: self-hosted
