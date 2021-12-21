@@ -4,8 +4,6 @@ on:
   workflow_dispatch:
   pull_request:
   push:
-    branches:
-      - main
 
 env:
   CODECOV_TOKEN: f4c778f3-4ffd-4e6e-a3c7-9e4cb11e92d5
