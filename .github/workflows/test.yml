@@ -1,16 +1,21 @@
-name: Execute tests
+name: Tests/Code coverage
 
 on:
   workflow_dispatch:
   pull_request:
   push:
 
+env:
+  CODECOV_TOKEN: f4c778f3-4ffd-4e6e-a3c7-9e4cb11e92d5
+
 jobs:
-  test:
-    runs-on: self-hosted
+  code_cov:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
 
       - name: Setup go
         uses: actions/setup-go@v2
@@ -27,3 +32,8 @@ jobs:
 
       - name: Test
         run: go test -v ./...
+
+      - name: Run coverage
+        run: go test ./... -race -coverprofile=coverage.out -covermode=atomic
+      - name: Upload coverage to Codecov
+        run: bash <(curl -s https://codecov.io/bash)
