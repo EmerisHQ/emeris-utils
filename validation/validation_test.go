@@ -66,44 +66,44 @@ func (e e) Error() string {
 	panic("implement me")
 }
 
-// func TestMissingFields(t *testing.T) {
-// 	tests := []struct {
-// 		name      string
-// 		err       error
-// 		fieldName bool
-// 		want      []string
-// 	}{
-// 		{
-// 			"not validation error",
-// 			fmt.Errorf("not validation"),
-// 			false,
-// 			nil,
-// 		},
-// 		{
-// 			"validation error",
-// 			validator.ValidationErrors{
-// 				e{},
-// 				e{Arg: "second"},
-// 			},
-// 			false,
-// 			[]string{"Field", "Fieldsecond"},
-// 		},
-// 		{
-// 			"validation error with field name",
-// 			validator.ValidationErrors{
-// 				e{},
-// 				e{Arg: "second"},
-// 			},
-// 			true,
-// 			[]string{"Actual", "Actualsecond"},
-// 		},
-// 	}
-// 	for _, tt := range tests {
-// 		t.Run(tt.name, func(t *testing.T) {
-// 			require.Equal(t, tt.want, validation.MissingFields(tt.err, tt.fieldName))
-// 		})
-// 	}
-// }
+func TestMissingFields(t *testing.T) {
+	tests := []struct {
+		name      string
+		err       error
+		fieldName bool
+		want      []string
+	}{
+		{
+			"not validation error",
+			fmt.Errorf("not validation"),
+			false,
+			nil,
+		},
+		{
+			"validation error",
+			validator.ValidationErrors{
+				e{},
+				e{Arg: "second"},
+			},
+			false,
+			[]string{"Field", "Fieldsecond"},
+		},
+		{
+			"validation error with field name",
+			validator.ValidationErrors{
+				e{},
+				e{Arg: "second"},
+			},
+			true,
+			[]string{"Actual", "Actualsecond"},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			require.Equal(t, tt.want, validation.MissingFields(tt.err, tt.fieldName))
+		})
+	}
+}
 
 func TestMissingFieldsErr(t *testing.T) {
 
