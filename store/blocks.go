@@ -39,6 +39,18 @@ func (b *Blocks) Block(height int64) ([]byte, error) {
 
 	return []byte(res), nil
 }
+func (b *Blocks) Blocks(height int64) ([]byte, error) {
+	res, err := b.storeInstance.Client.Get(context.Background(), blockKey(height)).Result()
+	if err != nil {
+		if err == redis.Nil {
+			return nil, ErrBlockNotFound
+		}
+
+		return nil, fmt.Errorf("redis error, %w", err)
+	}
+
+	return []byte(res), nil
+}
 
 func (b *Blocks) Add(data []byte, height int64) error {
 	return b.storeInstance.Client.Set(context.Background(), blockKey(height), string(data), defaultTimeout).Err()
