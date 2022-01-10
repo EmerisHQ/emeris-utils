@@ -30,7 +30,7 @@ func TestDataRaceInNewNode(t *testing.T) {
 
 	wg := sync.WaitGroup{}
 
-	f := func(n NodeConfiguration, w sync.WaitGroup) {
+	f := func(n NodeConfiguration, w *sync.WaitGroup) {
 		after := time.After(timeout)
 		wg.Add(1)
 
@@ -46,8 +46,8 @@ func TestDataRaceInNewNode(t *testing.T) {
 		}
 	}
 
-	go f(nc1, wg)
-	go f(nc2, wg)
+	go f(nc1, &wg)
+	go f(nc2, &wg)
 
 	wg.Wait()
 }
