@@ -359,7 +359,7 @@ func (s *Store) GetUserTickets(user string) (map[string][]string, error) {
 func (s *Store) GetPools() ([]byte, error) {
 	bz, err := s.Client.Get(context.Background(), "pools").Bytes()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("cannot fetch pools from cache, %w", err)
 	}
 
 	return bz, nil
@@ -368,7 +368,7 @@ func (s *Store) GetPools() ([]byte, error) {
 func (s *Store) GetParams() ([]byte, error) {
 	bz, err := s.Client.Get(context.Background(), "params").Bytes()
 	if err != nil {
-		return bz, err
+		return bz, fmt.Errorf("cannot fetch params from cache, %w", err)
 	}
 
 	return bz, nil
@@ -377,7 +377,7 @@ func (s *Store) GetParams() ([]byte, error) {
 func (s *Store) GetSupply() ([]byte, error) {
 	bz, err := s.Client.Get(context.Background(), "supply").Bytes()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("cannot fetch total supply from cache, %w", err)
 	}
 
 	return bz, nil
@@ -386,7 +386,7 @@ func (s *Store) GetSupply() ([]byte, error) {
 func (s *Store) GetNodeInfo() ([]byte, error) {
 	bz, err := s.Client.Get(context.Background(), "node_info").Bytes()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("cannot fetch node info from cache, %w", err)
 	}
 
 	return bz, nil
