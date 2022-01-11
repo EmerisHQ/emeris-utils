@@ -10,13 +10,10 @@ import (
 	"time"
 
 	"github.com/alicebob/miniredis/v2"
-	"github.com/cosmos/cosmos-sdk/client/grpc/tmservice"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	gaia "github.com/cosmos/gaia/v5/app"
 	"github.com/go-redis/redis/v8"
-	liquiditytypes "github.com/gravity-devs/liquidity/x/liquidity/types"
 )
 
 const (
@@ -359,64 +356,40 @@ func (s *Store) GetUserTickets(user string) (map[string][]string, error) {
 	return res, nil
 }
 
-func (s *Store) GetPools() (liquiditytypes.QueryLiquidityPoolsResponse, error) {
-	var res liquiditytypes.QueryLiquidityPoolsResponse
+func (s *Store) GetPools() (string, error) {
 	bz, err := s.Client.Get(context.Background(), "pools").Bytes()
 	if err != nil {
-		return liquiditytypes.QueryLiquidityPoolsResponse{}, err
+		return "", err
 	}
 
-	err = s.Cdc.UnmarshalJSON(bz, &res)
-	if err != nil {
-		return liquiditytypes.QueryLiquidityPoolsResponse{}, err
-	}
-
-	return res, nil
+	return string(bz), nil
 }
 
-func (s *Store) GetParams() (liquiditytypes.QueryParamsResponse, error) {
-	var res liquiditytypes.QueryParamsResponse
+func (s *Store) GetParams() (string, error) {
 	bz, err := s.Client.Get(context.Background(), "params").Bytes()
 	if err != nil {
-		return liquiditytypes.QueryParamsResponse{}, err
+		return "", err
 	}
 
-	err = s.Cdc.UnmarshalJSON(bz, &res)
-	if err != nil {
-		return liquiditytypes.QueryParamsResponse{}, err
-	}
-
-	return res, nil
+	return string(bz), nil
 }
 
-func (s *Store) GetSupply() (banktypes.QueryTotalSupplyResponse, error) {
-	var res banktypes.QueryTotalSupplyResponse
+func (s *Store) GetSupply() (string, error) {
 	bz, err := s.Client.Get(context.Background(), "supply").Bytes()
 	if err != nil {
-		return banktypes.QueryTotalSupplyResponse{}, err
+		return "", err
 	}
 
-	err = s.Cdc.UnmarshalJSON(bz, &res)
-	if err != nil {
-		return banktypes.QueryTotalSupplyResponse{}, err
-	}
-
-	return res, nil
+	return string(bz), nil
 }
 
-func (s *Store) GetNodeInfo() (tmservice.GetNodeInfoResponse, error) {
-	var res tmservice.GetNodeInfoResponse
+func (s *Store) GetNodeInfo() (string, error) {
 	bz, err := s.Client.Get(context.Background(), "node_info").Bytes()
 	if err != nil {
-		return tmservice.GetNodeInfoResponse{}, err
+		return "", err
 	}
 
-	err = s.Cdc.UnmarshalJSON(bz, &res)
-	if err != nil {
-		return tmservice.GetNodeInfoResponse{}, err
-	}
-
-	return res, nil
+	return string(bz), nil
 }
 
 func (s *Store) Delete(key string) error {
