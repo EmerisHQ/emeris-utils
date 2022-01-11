@@ -356,40 +356,40 @@ func (s *Store) GetUserTickets(user string) (map[string][]string, error) {
 	return res, nil
 }
 
-func (s *Store) GetPools() (string, error) {
+func (s *Store) GetPools() ([]byte, error) {
 	bz, err := s.Client.Get(context.Background(), "pools").Bytes()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return string(bz), nil
+	return bz, nil
 }
 
-func (s *Store) GetParams() (string, error) {
+func (s *Store) GetParams() ([]byte, error) {
 	bz, err := s.Client.Get(context.Background(), "params").Bytes()
 	if err != nil {
-		return "", err
+		return bz, err
 	}
 
-	return string(bz), nil
+	return bz, nil
 }
 
-func (s *Store) GetSupply() (string, error) {
+func (s *Store) GetSupply() ([]byte, error) {
 	bz, err := s.Client.Get(context.Background(), "supply").Bytes()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return string(bz), nil
+	return bz, nil
 }
 
-func (s *Store) GetNodeInfo() (string, error) {
+func (s *Store) GetNodeInfo() ([]byte, error) {
 	bz, err := s.Client.Get(context.Background(), "node_info").Bytes()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return string(bz), nil
+	return bz, nil
 }
 
 func (s *Store) Delete(key string) error {
