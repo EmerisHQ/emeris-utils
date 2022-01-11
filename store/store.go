@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/alicebob/miniredis/v2"
+	"github.com/cosmos/cosmos-sdk/client/grpc/tmservice"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
@@ -398,6 +399,21 @@ func (s *Store) GetSupply() (banktypes.QueryTotalSupplyResponse, error) {
 	err = s.Cdc.UnmarshalJSON(bz, &res)
 	if err != nil {
 		return banktypes.QueryTotalSupplyResponse{}, err
+	}
+
+	return res, nil
+}
+
+func (s *Store) GetNodeInfo() (tmservice.GetNodeInfoResponse, error) {
+	var res tmservice.GetNodeInfoResponse
+	bz, err := s.Client.Get(context.Background(), "node_info").Bytes()
+	if err != nil {
+		return tmservice.GetNodeInfoResponse{}, err
+	}
+
+	err = s.Cdc.UnmarshalJSON(bz, &res)
+	if err != nil {
+		return tmservice.GetNodeInfoResponse{}, err
 	}
 
 	return res, nil
