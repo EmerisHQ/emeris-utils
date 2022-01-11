@@ -139,20 +139,22 @@ var defaultTracelistenerConfig = v1.TraceStoreContainerConfig{
 	},
 }
 
-var defaultConfig = v1.NodeSetConfig{
-	Nodes: &v1.NodeSetConfigNodes{
-		StartupTimeout: &defaultStartupTimeout,
-	},
-	AdditionalEgressRules: []netv1.NetworkPolicyEgressRule{
-		{
-			Ports: []netv1.NetworkPolicyPort{
-				{
-					Protocol: &defaultProtocol,
-					Port:     &defaultPort,
+func newDefaultNodeSetConfig() v1.NodeSetConfig {
+	return v1.NodeSetConfig{
+		Nodes: &v1.NodeSetConfigNodes{
+			StartupTimeout: &defaultStartupTimeout,
+		},
+		AdditionalEgressRules: []netv1.NetworkPolicyEgressRule{
+			{
+				Ports: []netv1.NetworkPolicyPort{
+					{
+						Protocol: &defaultProtocol,
+						Port:     &defaultPort,
+					},
 				},
 			},
 		},
-	},
+	}
 }
 
 func NewNode(c NodeConfiguration) (*v1.NodeSet, error) {
@@ -209,7 +211,7 @@ func NewNode(c NodeConfiguration) (*v1.NodeSet, error) {
 		Value: strconv.FormatBool(c.TracelistenerDebug),
 	})
 
-	nodeConfig := defaultConfig
+	nodeConfig := newDefaultNodeSetConfig()
 	nodeConfig.Nodes.TraceStoreContainer = &tracelistenerConfig
 
 	node.Spec.Config = &nodeConfig
