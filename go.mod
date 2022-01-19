@@ -26,7 +26,7 @@ require (
 	github.com/lib/pq v1.10.3
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
 	github.com/natefinch/lumberjack v2.0.0+incompatible
-	github.com/spf13/viper v1.7.1
+	github.com/spf13/viper v1.10.1
 	github.com/stretchr/testify v1.7.1-0.20210427113832-6241f9ab9942
 	go.uber.org/zap v1.17.0
 	k8s.io/api v0.21.1
