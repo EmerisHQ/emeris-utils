@@ -8,9 +8,11 @@ import (
 	"go.uber.org/zap"
 )
 
+type ctxKey string
+
 const (
-	CorrelationIDName    = "correlation_id"
-	IntCorrelationIDName = "int_correlation_id"
+	CorrelationIDName    ctxKey = "correlation_id"
+	IntCorrelationIDName ctxKey = "int_correlation_id"
 )
 
 // CorrelationIDMiddleware adds correlationID if it's not specified in HTTP request
