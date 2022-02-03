@@ -11,8 +11,9 @@ import (
 type ctxKey string
 
 const (
-	CorrelationIDName    ctxKey = "correlation_id"
-	IntCorrelationIDName ctxKey = "int_correlation_id"
+	CorrelationIDName         ctxKey = "correlation_id"
+	IntCorrelationIDName      ctxKey = "int_correlation_id"
+	ExternalCorrelationIDName string = "X-Correlation-Id"
 )
 
 // CorrelationIDMiddleware adds correlationID if it's not specified in HTTP request
@@ -25,11 +26,11 @@ func CorrelationIDMiddleware(l *zap.SugaredLogger) gin.HandlerFunc {
 func addCorrelationID(c *gin.Context, l *zap.SugaredLogger) {
 	ctx := c.Request.Context()
 
-	correlationID := c.Request.Header.Get("X-Correlation-id")
+	correlationID := c.Request.Header.Get(ExternalCorrelationIDName)
 
 	if correlationID != "" {
 		ctx = context.WithValue(ctx, CorrelationIDName, correlationID)
-		c.Writer.Header().Set("X-Correlation-Id", correlationID)
+		c.Writer.Header().Set(ExternalCorrelationIDName, correlationID)
 		l = l.With(CorrelationIDName, correlationID)
 	}
 
