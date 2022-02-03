@@ -17,10 +17,10 @@ func LogRequest(logger *zap.Logger) gin.HandlerFunc {
 }
 
 func log(c *gin.Context) {
+	start := time.Now()
 
 	c.Next()
 
-	start := time.Now()
 	// some evil middlewares modify this values
 	path := c.Request.URL.Path
 	query := c.Request.URL.RawQuery
