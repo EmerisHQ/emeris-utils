@@ -1,7 +1,7 @@
 package logging
 
 import (
-	"net/http"
+	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -36,18 +36,16 @@ func log(c *gin.Context) {
 	)
 }
 
-func GetLoggerFromContext(c *gin.Context) *zap.SugaredLogger {
+func GetLoggerFromContext(c *gin.Context) (*zap.SugaredLogger, error) {
 	value, ok := c.Get("logger")
 	if !ok {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, "logger does not exists in context")
-		return nil
+		return nil, fmt.Errorf("logger does not exists in context")
 	}
 
 	l, ok := value.(*zap.SugaredLogger)
 	if !ok {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, "invalid logger format in context")
-		return nil
+		return nil, fmt.Errorf("invalid logger format in context")
 	}
 
-	return l
+	return l, nil
 }
