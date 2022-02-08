@@ -21,7 +21,7 @@ require (
 	github.com/go-playground/validator/v10 v10.9.0
 	github.com/go-redis/redis/v8 v8.8.3
 	github.com/gofrs/uuid v4.2.0+incompatible
-	github.com/iamolegga/enviper v1.2.1
+	github.com/iamolegga/enviper v1.4.0
 	github.com/jackc/pgx/v4 v4.10.1
 	github.com/jmoiron/sqlx v1.3.3
 	github.com/lib/pq v1.10.3
