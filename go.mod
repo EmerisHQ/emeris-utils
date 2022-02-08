@@ -22,7 +22,7 @@ require (
 	github.com/go-redis/redis/v8 v8.8.3
 	github.com/gofrs/uuid v4.2.0+incompatible
 	github.com/iamolegga/enviper v1.4.0
-	github.com/jackc/pgx/v4 v4.10.1
+	github.com/jackc/pgx/v4 v4.15.0
 	github.com/jmoiron/sqlx v1.3.3
 	github.com/lib/pq v1.10.3
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
