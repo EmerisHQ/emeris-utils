@@ -1,6 +1,7 @@
 package logging
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -17,6 +18,9 @@ func LogRequest(logger *zap.Logger) gin.HandlerFunc {
 
 func log(c *gin.Context) {
 	start := time.Now()
+
+	c.Next()
+
 	// some evil middlewares modify this values
 	path := c.Request.URL.Path
 	query := c.Request.URL.RawQuery
@@ -30,6 +34,18 @@ func log(c *gin.Context) {
 		zap.String("user-agent", c.Request.UserAgent()),
 		zap.String("time", start.Format(time.RFC3339)),
 	)
+}
 
-	c.Next()
+func GetLoggerFromContext(c *gin.Context) (*zap.SugaredLogger, error) {
+	value, ok := c.Get("logger")
+	if !ok {
+		return nil, fmt.Errorf("logger does not exists in context")
+	}
+
+	l, ok := value.(*zap.SugaredLogger)
+	if !ok {
+		return nil, fmt.Errorf("invalid logger format in context")
+	}
+
+	return l, nil
 }
