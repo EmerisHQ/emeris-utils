@@ -29,7 +29,7 @@ func addCorrelationID(c *gin.Context, l *zap.SugaredLogger) {
 	correlationID := c.Request.Header.Get(ExternalCorrelationIDName)
 
 	if correlationID != "" {
-		ctx = context.WithValue(ctx, string(CorrelationIDName), correlationID)
+		ctx = context.WithValue(ctx, CorrelationIDName, correlationID)
 		c.Writer.Header().Set(ExternalCorrelationIDName, correlationID)
 		l = l.With(string(CorrelationIDName), correlationID)
 	}
@@ -39,7 +39,7 @@ func addCorrelationID(c *gin.Context, l *zap.SugaredLogger) {
 		l.Errorf("Error while creating new internal correlation id error: %w", err)
 	}
 
-	ctx = context.WithValue(ctx, string(IntCorrelationIDName), id.String())
+	ctx = context.WithValue(ctx, IntCorrelationIDName, id.String())
 	l = l.With(string(IntCorrelationIDName), id)
 
 	c.Set("logger", l)
