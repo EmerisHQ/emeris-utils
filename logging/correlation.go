@@ -35,7 +35,9 @@ func addCorrelationID(c *gin.Context, l *zap.SugaredLogger) {
 	}
 
 	id, err := uuid.NewV4()
-	l.Errorf("Error while creating new internal correlation id error: %w", err)
+	if err != nil {
+		l.Errorf("Error while creating new internal correlation id error: %w", err)
+	}
 
 	ctx = context.WithValue(ctx, IntCorrelationIDName, id.String())
 	l = l.With(IntCorrelationIDName, id)
