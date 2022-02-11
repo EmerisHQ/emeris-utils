@@ -3,6 +3,7 @@ package store
 import (
 	"os"
 	"testing"
+	"time"
 
 	"github.com/alicebob/miniredis/v2"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -262,4 +263,18 @@ func TestBlocks(t *testing.T) {
 	res, err := blocks.Block(123)
 	require.NoError(t, err)
 	require.Equal(t, data, res)
+}
+
+func TestBlockTime(t *testing.T) {
+	defer ResetTestStore(mr, store)
+	blocks := NewBlocks(store)
+	_, err := blocks.LastBlockTime(123)
+	require.Error(t, err)
+	require.ErrorIs(t, err, ErrBlockNotFound)
+
+	tn := time.Now()
+	require.NoError(t, blocks.SetLastBlockTime(tn, 123))
+	res, err := blocks.LastBlockTime(123)
+	require.NoError(t, err)
+	require.True(t, tn.Equal(res))
 }
