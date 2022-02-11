@@ -31,7 +31,7 @@ func addCorrelationID(c *gin.Context, l *zap.SugaredLogger) {
 	if correlationID != "" {
 		ctx = context.WithValue(ctx, CorrelationIDName, correlationID)
 		c.Writer.Header().Set(ExternalCorrelationIDName, correlationID)
-		l = l.With(CorrelationIDName, correlationID)
+		l = l.With(string(CorrelationIDName), correlationID)
 	}
 
 	id, err := uuid.NewV4()
@@ -40,7 +40,7 @@ func addCorrelationID(c *gin.Context, l *zap.SugaredLogger) {
 	}
 
 	ctx = context.WithValue(ctx, IntCorrelationIDName, id.String())
-	l = l.With(IntCorrelationIDName, id)
+	l = l.With(string(IntCorrelationIDName), id)
 
 	c.Set("logger", l)
 
