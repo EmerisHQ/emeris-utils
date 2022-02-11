@@ -12,7 +12,7 @@ replace (
 require (
 	github.com/alicebob/miniredis/v2 v2.16.0
 	github.com/allinbits/starport-operator v0.0.1-alpha.45
-	github.com/cockroachdb/cockroach-go/v2 v2.1.1
+	github.com/cockroachdb/cockroach-go/v2 v2.2.8
 	github.com/cosmos/cosmos-sdk v0.42.8
 	github.com/cosmos/gaia/v5 v5.0.4
 	github.com/ethereum/go-ethereum v1.10.15
