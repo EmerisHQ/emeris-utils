@@ -8,15 +8,12 @@ import (
 	"go.uber.org/zap"
 )
 
-var l *zap.Logger
-
 // LogRequest is a gin middleware that logs useful informations on each request as they come.
-func LogRequest(logger *zap.Logger) gin.HandlerFunc {
-	l = logger
-	return log
-}
-
-func log(c *gin.Context) {
+func LogRequest(c *gin.Context) {
+	l, err := GetLoggerFromContext(c)
+	if err != nil {
+		panic(fmt.Errorf("Can't get logger from context error:%w", err))
+	}
 	start := time.Now()
 
 	c.Next()
