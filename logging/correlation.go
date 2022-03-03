@@ -48,3 +48,19 @@ func addCorrelationID(c *gin.Context, l *zap.SugaredLogger) {
 
 	c.Next()
 }
+
+// AddCorrelationIDToLogger takes correlation ID from the request context and
+// enriches the logger with them. The param logger cannot be nil.
+func AddCorrelationIDToLogger(c *gin.Context, l *zap.SugaredLogger) *zap.SugaredLogger {
+	if c == nil {
+		return l
+	}
+
+	// note: correlation IDs are in the request context, not in the gin context
+	ctx := c.Request.Context()
+
+	return l.With(
+		string(CorrelationIDName), ctx.Value(CorrelationIDName),
+		string(IntCorrelationIDName), ctx.Value(IntCorrelationIDName),
+	)
+}
