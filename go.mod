@@ -1,4 +1,4 @@
-module github.com/allinbits/emeris-utils
+module github.com/emerishq/emeris-utils
 
 go 1.16
 

@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/allinbits/emeris-utils/configuration"
+	"github.com/emerishq/emeris-utils/configuration"
 )
 
 const progName = "test"

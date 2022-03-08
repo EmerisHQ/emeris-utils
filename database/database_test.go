@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/allinbits/emeris-utils/database"
+	"github.com/emerishq/emeris-utils/database"
 )
 
 func TestNew(t *testing.T) {
