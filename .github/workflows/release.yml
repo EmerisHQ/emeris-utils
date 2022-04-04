@@ -19,4 +19,4 @@ jobs:
         with:
           release_branch: main
         env:
-          GITHUB_TOKEN: ${{ secrets.TENDERBOT_GIT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
