@@ -11,6 +11,8 @@ import (
 type ctxKey string
 
 const (
+	LoggerKey = "logger"
+
 	CorrelationIDName         ctxKey = "correlation_id"
 	IntCorrelationIDName      ctxKey = "int_correlation_id"
 	ExternalCorrelationIDName string = "X-Correlation-Id"
@@ -52,7 +54,7 @@ func addLogger(c *gin.Context, l *zap.SugaredLogger) {
 		l = l.With("query", c.Request.URL.RawQuery)
 	}
 
-	c.Set("logger", l)
+	c.Set(LoggerKey, l)
 
 	c.Request = c.Request.WithContext(ctx)
 
