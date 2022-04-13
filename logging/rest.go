@@ -42,7 +42,7 @@ func LogRequest(fallBackLogger *zap.Logger) gin.HandlerFunc {
 }
 
 func GetLoggerFromContext(c *gin.Context) (*zap.SugaredLogger, error) {
-	value, ok := c.Get("logger")
+	value, ok := c.Get(LoggerKey)
 	if !ok {
 		return nil, fmt.Errorf("logger does not exists in context")
 	}
