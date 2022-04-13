@@ -11,19 +11,23 @@ import (
 type ctxKey string
 
 const (
+	LoggerKey = "logger"
+
 	CorrelationIDName         ctxKey = "correlation_id"
 	IntCorrelationIDName      ctxKey = "int_correlation_id"
 	ExternalCorrelationIDName string = "X-Correlation-Id"
 )
 
-// CorrelationIDMiddleware adds correlationID if it's not specified in HTTP request
-func CorrelationIDMiddleware(l *zap.SugaredLogger) gin.HandlerFunc {
+// AddLoggerMiddleware adds a logger to the gin context, with some fields
+// populated (correlation ID, requests params, ...).
+// The logger can be retrieved by calling GetLoggerFromContext(c).
+func AddLoggerMiddleware(l *zap.SugaredLogger) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		addCorrelationID(c, l)
+		addLogger(c, l)
 	}
 }
 
-func addCorrelationID(c *gin.Context, l *zap.SugaredLogger) {
+func addLogger(c *gin.Context, l *zap.SugaredLogger) {
 	ctx := c.Request.Context()
 
 	correlationID := c.Request.Header.Get(ExternalCorrelationIDName)
@@ -42,7 +46,15 @@ func addCorrelationID(c *gin.Context, l *zap.SugaredLogger) {
 	ctx = context.WithValue(ctx, IntCorrelationIDName, id.String())
 	l = l.With(string(IntCorrelationIDName), id)
 
-	c.Set("logger", l)
+	for _, p := range c.Params {
+		l = l.With(p.Key, p.Value)
+	}
+
+	if len(c.Request.URL.RawQuery) > 0 {
+		l = l.With("query", c.Request.URL.RawQuery)
+	}
+
+	c.Set(LoggerKey, l)
 
 	c.Request = c.Request.WithContext(ctx)
 
