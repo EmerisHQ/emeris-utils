@@ -12,7 +12,7 @@ import (
 	"github.com/alicebob/miniredis/v2"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	gaia "github.com/cosmos/gaia/v5/app"
+	gaia "github.com/cosmos/gaia/v7/app"
 	"github.com/go-redis/redis/v8"
 )
 
