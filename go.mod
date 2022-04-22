@@ -16,6 +16,7 @@ require (
 	github.com/cosmos/cosmos-sdk v0.42.8
 	github.com/cosmos/gaia/v5 v5.0.4
 	github.com/ethereum/go-ethereum v1.10.16
+	github.com/getsentry/sentry-go v0.13.0
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-playground/universal-translator v0.18.0
 	github.com/go-playground/validator/v10 v10.10.0
