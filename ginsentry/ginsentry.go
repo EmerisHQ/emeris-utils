@@ -32,10 +32,13 @@ func Middleware(ctx *gin.Context) {
 
 	// start span for the request
 	span := sentry.StartSpan(ctx.Request.Context(), "http.server",
-		sentry.TransactionName(fmt.Sprintf("%s %s", ctx.Request.Method, ctx.Request.URL.Path)),
+		sentry.TransactionName(fmt.Sprintf("%s %s", ctx.Request.Method, ctx.FullPath())),
 		sentry.ContinueFromRequest(ctx.Request),
 	)
 	defer span.Finish()
+	for _, param := range ctx.Params {
+		span.SetTag(param.Key, param.Value)
+	}
 	ctx.Request = ctx.Request.WithContext(span.Context())
 
 	ctx.Next()
