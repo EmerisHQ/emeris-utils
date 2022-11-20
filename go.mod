@@ -13,7 +13,7 @@ require (
 	github.com/alicebob/miniredis/v2 v2.18.0
 	github.com/cockroachdb/cockroach-go/v2 v2.2.8
 	github.com/confio/ics23/go v0.7.0 // indirect
-	github.com/cosmos/cosmos-sdk v0.45.3
+	github.com/cosmos/cosmos-sdk v0.44.5
 	github.com/ethereum/go-ethereum v1.10.16
 	github.com/getsentry/sentry-go v0.13.0
 	github.com/gin-gonic/gin v1.7.7
